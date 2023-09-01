@@ -49,6 +49,11 @@ type IGuiCommon interface {
 	// used purely for the sake of RenderToMainViews to provide the pair of main views we want to render to
 	MainViewPairs() MainViewPairs
 
+	// set the information view (right side of the status bar) to frozen so that
+	// it doesn't change when modes change. Useful during blocking operations
+	// that want to redraw the status view (WithWaitingStatusSync) to avoid flicker.
+	SetFreezeInformationView(freeze bool)
+
 	// returns true if command completed successfully
 	RunSubprocess(cmdObj oscommands.ICmdObj) (bool, error)
 	RunSubprocessAndRefresh(oscommands.ICmdObj) error

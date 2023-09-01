@@ -10,6 +10,10 @@ import (
 )
 
 func (gui *Gui) informationStr() string {
+	if gui.frozenInformationStr != "" {
+		return gui.frozenInformationStr
+	}
+
 	if activeMode, ok := gui.helpers.Mode.GetActiveMode(); ok {
 		return activeMode.Description()
 	}

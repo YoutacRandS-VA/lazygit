@@ -157,6 +157,14 @@ func (self *guiCommon) MainViewPairs() types.MainViewPairs {
 	}
 }
 
+func (self *guiCommon) SetFreezeInformationView(freeze bool) {
+	if freeze {
+		self.gui.frozenInformationStr = self.gui.informationStr()
+	} else {
+		self.gui.frozenInformationStr = ""
+	}
+}
+
 func (self *guiCommon) State() types.IStateAccessor {
 	return self.gui.stateAccessor
 }

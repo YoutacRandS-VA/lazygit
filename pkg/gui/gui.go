@@ -129,6 +129,10 @@ type Gui struct {
 	c       *helpers.HelperCommon
 	helpers *helpers.Helpers
 
+	// freeze what's displayed in the Information view to this string. Empty
+	// when not frozen
+	frozenInformationStr string
+
 	integrationTest integrationTypes.IntegrationTest
 
 	afterLayoutFuncs chan func() error

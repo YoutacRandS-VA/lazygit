@@ -89,13 +89,16 @@ func (self *AppStatusHelper) renderAppStatus() {
 func (self *AppStatusHelper) renderAppStatusSync(stop chan struct{}) {
 	ticker := time.NewTicker(time.Millisecond * 50)
 	go func() {
+		self.c.SetFreezeInformationView(true)
+		defer func() { self.c.SetFreezeInformationView(false) }()
+
 	outer:
 		for {
 			select {
 			case <-ticker.C:
 				appStatus := self.statusMgr().GetStatusString()
 				self.c.SetViewContent(self.c.Views().AppStatus, " "+appStatus)
-				_ = self.c.GocuiGui().ForceRedrawView(self.c.Views().AppStatus)
+				_ = self.c.GocuiGui().ForceRedrawViews(self.c.Views().AppStatus, self.c.Views().Options)
 			case <-stop:
 				break outer
 			}

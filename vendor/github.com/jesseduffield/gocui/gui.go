@@ -1152,17 +1152,19 @@ func (g *Gui) flush() error {
 	return nil
 }
 
-// force redawing a view outside of the normal main loop. Useful during longer
+// force redawing one or more views outside of the normal main loop. Useful during longer
 // operations that block the main thread, to update a spinner in a status view.
-func (g *Gui) ForceRedrawView(v *View) error {
+func (g *Gui) ForceRedrawViews(views ...*View) error {
 	for _, m := range g.managers {
 		if err := m.Layout(g); err != nil {
 			return err
 		}
 	}
 
-	if err := v.draw(); err != nil {
-		return err
+	for _, v := range views {
+		if err := v.draw(); err != nil {
+			return err
+		}
 	}
 
 	Screen.Show()
