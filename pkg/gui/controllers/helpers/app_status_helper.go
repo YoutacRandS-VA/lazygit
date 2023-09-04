@@ -51,7 +51,7 @@ func (self *AppStatusHelper) WithWaitingStatus(message string, f func(gocui.Task
 func (self *AppStatusHelper) WithWaitingStatusSync(message string, f func() error) {
 	self.statusMgr().WithWaitingStatus(message, func() {
 		stop := make(chan struct{})
-		defer func() { stop <- struct{}{} }()
+		defer func() { close(stop) }()
 		self.renderAppStatusSync(stop)
 
 		if err := f(); err != nil {
