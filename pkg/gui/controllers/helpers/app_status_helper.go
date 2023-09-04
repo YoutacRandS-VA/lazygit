@@ -89,6 +89,13 @@ func (self *AppStatusHelper) renderAppStatus() {
 func (self *AppStatusHelper) renderAppStatusSync(stop chan struct{}) {
 	ticker := time.NewTicker(time.Millisecond * 50)
 	go func() {
+		// Forcing a re-layout and redraw after we added the waiting status;
+		// this is needed in case the gui.showBottomLine config is set to false,
+		// to make sure the bottom line appears. It's also useful for redrawing
+		// once after each of several consecutive keypresses, e.g. pressing
+		// ctrl-j to move a commit down several steps.
+		_ = self.c.GocuiGui().ForceLayoutAndRedraw()
+
 		self.c.SetFreezeInformationView(true)
 		defer func() { self.c.SetFreezeInformationView(false) }()
 

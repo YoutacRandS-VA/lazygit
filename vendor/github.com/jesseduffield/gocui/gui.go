@@ -1152,6 +1152,10 @@ func (g *Gui) flush() error {
 	return nil
 }
 
+func (g *Gui) ForceLayoutAndRedraw() error {
+	return g.flush()
+}
+
 // force redawing one or more views outside of the normal main loop. Useful during longer
 // operations that block the main thread, to update a spinner in a status view.
 func (g *Gui) ForceRedrawViews(views ...*View) error {
